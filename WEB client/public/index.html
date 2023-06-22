@@ -30,10 +30,13 @@
         <p id="test">Obteniendo estados de los sensores... </p>
       </b>
       <center>
-        <button id="btn1" type="submit" class="btn btn-info" onclick="btn_toggle(1)">ON</button>
-        <button id="btn2" type="submit" class="btn btn-info" onclick="btn_toggle(2)">ON</button>
-        <button id="btn3" type="submit" class="btn btn-info" onclick="btn_toggle(3)">ON</button>
-        <button id="btn4" type="submit" class="btn btn-info" onclick="btn_toggle(4)">ON</button>
+        <button type="submit" class="btn btn-info" onclick="btn_toggle(1)">ON/OFF</button>
+        <br><br>
+        <button type="submit" class="btn btn-info" onclick="btn_toggle(2)">ON/OFF</button>
+        <br><br>
+        <button type="submit" class="btn btn-info" onclick="btn_toggle(3)">ON/OFF</button>
+        <br><br>
+        <button type="submit" class="btn btn-info" onclick="btn_toggle(4)">ON/OFF</button>
       </center>
 
     </div>
@@ -62,37 +65,58 @@
 
   var test = document.getElementById('test');
 
-  function updateButtonState(relayNumber) {
-    var ref = firebase.database().ref().child('switch').child(relayNumber.toString());
-    ref.on("value", function(snapshot) {
-      var state = snapshot.val();
-      var button = document.getElementById('btn' + relayNumber.toString());
-      button.innerText = state;
-      if (state === "ON") {
-        button.classList.remove("btn-danger");
-        button.classList.add("btn-info");
-      } else {
-        button.classList.remove("btn-info");
-        button.classList.add("btn-danger");
-      }
-    }, function(error) {
-      console.log("Error: " + error.code);
-    });
-  }
+  var switchRef = firebase.database().ref().child('switch');
+
+  switchRef.on("value", function(snapshot) {
+    var switchState = snapshot.val();
+
+    if (switchState !== null) {
+      var relay1State = switchState['1'];
+      var relay2State = switchState['2'];
+      var relay3State = switchState['3'];
+      var relay4State = switchState['4'];
+
+      test.innerText = "Estado de los sensores:\n" +
+                        "Relay 1: " + relay1State + "\n" +
+                        "Relay 2: " + relay2State + "\n" +
+                        "Relay 3: " + relay3State + "\n" +
+                        "Relay 4: " + relay4State;
+
+      if (relay1State === "ON")
+        document.getElementById('btn1').classList.add('btn-danger');
+      else
+        document.getElementById('btn1').classList.remove('btn-danger');
+
+      if (relay2State === "ON")
+        document.getElementById('btn2').classList.add('btn-danger');
+      else
+        document.getElementById('btn2').classList.remove('btn-danger');
+
+      if (relay3State === "ON")
+        document.getElementById('btn3').classList.add('btn-danger');
+      else
+        document.getElementById('btn3').classList.remove('btn-danger');
+
+      if (relay4State === "ON")
+        document.getElementById('btn4').classList.add('btn-danger');
+      else
+        document.getElementById('btn4').classList.remove('btn-danger');
+    }
+  }, function(error) {
+    console.log("Error: " + error.code);
+  });
 
   function btn_toggle(relayNumber) {
-    var ref = firebase.database().ref().child('switch').child(relayNumber.toString());
-    ref.transaction(function(currentState) {
-      return (currentState === "ON") ? "OFF" : "ON";
+    var relayRef = switchRef.child(relayNumber.toString());
+
+    relayRef.once("value", function(snapshot) {
+      var currentState = snapshot.val();
+
+      var newState = currentState === "ON" ? "OFF" : "ON";
+
+      relayRef.set(newState);
     });
   }
-
-  // Actualizar el estado de los botones al cargar la página
-  updateButtonState(1);
-  updateButtonState(2);
-  updateButtonState(3);
-  updateButtonState(4);
-
 </script>
 
 </body>
