@@ -24,7 +24,7 @@
 
     <div class="jumbotron">
       <h1 class="display-3">Proyecto Vigía</h1>
-      <p class="lead">Los siguientes botones controlan los actuadores del vehículo seleccionado.</p>
+      <p class="lead">Los siguientes botones controlan los actuadores del vehiculo seleccionado.</p>
 
       <b>
         <p id="test">Obteniendo estados de los sensores... </p>
@@ -82,10 +82,8 @@
 
   function btn_toggle(relayNumber) {
     var ref = firebase.database().ref().child('switch').child(relayNumber.toString());
-    ref.once("value", function(snapshot) {
-      var state = snapshot.val();
-      var newState = (state === "ON") ? "OFF" : "ON";
-      ref.set(newState);
+    ref.transaction(function(currentState) {
+      return (currentState === "ON") ? "OFF" : "ON";
     });
   }
 
