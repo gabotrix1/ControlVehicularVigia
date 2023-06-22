@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Control Vehicular Vigía</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+  <header class="header clearfix">
+    <h3 class="text-muted">Centro de Control Vehicular</h3>
+  </header>
+
+  <main role="main">
+
+    <div class="jumbotron">
+      <h1 class="display-3">Proyecto Vigía</h1>
+      <p class="lead">Los siguientes botones controlan los actuadores del vehiculo seleccionado.</p>
+
+      <b>
+        <p id="test">Obteniendo estados de los sensores... </p>
+      </b>
+      <center>
+        <button type="submit" class="btn btn-info" onclick="btn_on(1)">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(1)">OFF</button>
+        <br><br>
+        <button type="submit" class="btn btn-info" onclick="btn_on(2)">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(2)">OFF</button>
+        <br><br>
+        <button type="submit" class="btn btn-info" onclick="btn_on(3)">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(3)">OFF</button>
+        <br><br>
+        <button type="submit" class="btn btn-info" onclick="btn_on(4)">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(4)">OFF</button>
+      </center>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; Innowatt Systems S.A.S</p>
+  </footer>
+
+</div> <!-- /container -->
+
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script>
+  var config = {
+    apiKey: "AIzaSyB4OBIxh7X61OfSmhSfGy_zPP-njaKBxVM",
+    authDomain: "vigia-15de1.firebaseapp.com",
+    databaseURL: "https://vigia-15de1-default-rtdb.firebaseio.com",
+    projectId: "vigia-15de1",
+    storageBucket: "vigia-15de1.appspot.com",
+    messagingSenderId: "329163251443"
+  };
+  firebase.initializeApp(config);
+
+  var database = firebase.database();
+
+  var test = document.getElementById('test');
+
+  var ref = firebase.database().ref().child('Switch').child('state');
+
+  ref.on("value", function(snapshot) {
+    test.innerText = snapshot.val();
+    if (snapshot.val() == "ON")
+      test.style.color = "green";
+    else
+      test.style.color = "red";
+  }, function(error) {
+    console.log("Error: " + error.code);
+  });
+
+  function btn_on(relayNumber) {
+    var hopperRef = firebase.database().ref().child("Switch" + relayNumber);
+    hopperRef.update({
+      "state": "ON"
+    });
+  }
+
+  function btn_off(relayNumber) {
+    var hopperRef2 = firebase.database().ref().child("Switch" + relayNumber);
+    hopperRef2.update({
+      "state": "OFF"
+    });
+  }
+</script>
+
+</body>
+</html>
