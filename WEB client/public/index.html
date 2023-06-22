@@ -26,9 +26,8 @@
       <h1 class="display-3">Proyecto Vigía</h1>
       <p class="lead">Los siguientes botones controlan los actuadores del vehículo seleccionado.</p>
 
-      <b>
-        <p id="test">Obteniendo estados de los sensores... </p>
-      </b>
+      <p>Obteniendo estados de los sensores...</p>
+
       <center>
         <button type="submit" class="btn btn-info" onclick="btn_on(1)">ON</button>
         <button type="submit" class="btn btn-danger" onclick="btn_off(1)">OFF</button>
@@ -67,26 +66,15 @@
 
   var database = firebase.database();
 
-  var test = document.getElementById('test');
-
   function btn_on(relayNumber) {
-    var switchRef = firebase.database().ref().child("switch").child(relayNumber);
+    var switchRef = firebase.database().ref().child("Switch").child(relayNumber);
     switchRef.set("ON");
   }
 
   function btn_off(relayNumber) {
-    var switchRef = firebase.database().ref().child("switch").child(relayNumber);
+    var switchRef = firebase.database().ref().child("Switch").child(relayNumber);
     switchRef.set("OFF");
   }
-
-  var switchRef = firebase.database().ref().child("switch");
-
-  switchRef.on("value", function(snapshot) {
-    var state = snapshot.val();
-    test.innerText = "Estado actual: " + JSON.stringify(state);
-  }, function(error) {
-    console.log("Error: " + error.code);
-  });
 </script>
 
 </body>
