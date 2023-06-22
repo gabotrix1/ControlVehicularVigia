@@ -56,12 +56,12 @@
 <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
 <script>
   var config = {
-    apiKey: "AIzaSyB4OBIxh7X61OfSmhSfGy_zPP-njaKBxVM",
+    apiKey: "YOUR_API_KEY",
     authDomain: "vigia-15de1.firebaseapp.com",
     databaseURL: "https://vigia-15de1-default-rtdb.firebaseio.com",
     projectId: "vigia-15de1",
     storageBucket: "vigia-15de1.appspot.com",
-    messagingSenderId: "329163251443"
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID"
   };
   firebase.initializeApp(config);
 
@@ -69,31 +69,48 @@
 
   var test = document.getElementById('test');
 
-  var ref = firebase.database().ref().child('Switch').child('state');
+  var ref1 = firebase.database().ref().child('Switch').child('1');
+  var ref2 = firebase.database().ref().child('Switch').child('2');
+  var ref3 = firebase.database().ref().child('Switch').child('3');
+  var ref4 = firebase.database().ref().child('Switch').child('4');
 
-  ref.on("value", function(snapshot) {
-    test.innerText = snapshot.val();
-    if (snapshot.val() == "ON")
-      test.style.color = "green";
-    else
-      test.style.color = "red";
-  }, function(error) {
-    console.log("Error: " + error.code);
-  });
+  function updateButtonColor(ref, buttonId) {
+    ref.on("value", function(snapshot) {
+      var state = snapshot.val();
+      var button = document.getElementById(buttonId);
+      button.innerText = state;
+      if (state === "ON") {
+        button.classList.remove("btn-danger");
+        button.classList.add("btn-info");
+      } else {
+        button.classList.remove("btn-info");
+        button.classList.add("btn-danger");
+      }
+    }, function(error) {
+      console.log("Error: " + error.code);
+    });
+  }
+
+  function updateAllButtonColors() {
+    updateButtonColor(ref1, "btn1");
+    updateButtonColor(ref2, "btn2");
+    updateButtonColor(ref3, "btn3");
+    updateButtonColor(ref4, "btn4");
+  }
 
   function btn_on(relayNumber) {
-    var hopperRef = firebase.database().ref().child("Switch" + relayNumber);
-    hopperRef.update({
-      "state": "ON"
-    });
+    var ref = firebase.database().ref().child("Switch").child(relayNumber.toString());
+    ref.set("ON");
   }
 
   function btn_off(relayNumber) {
-    var hopperRef2 = firebase.database().ref().child("Switch" + relayNumber);
-    hopperRef2.update({
-      "state": "OFF"
-    });
+    var ref = firebase.database().ref().child("Switch").child(relayNumber.toString());
+    ref.set("OFF");
   }
+
+  // Actualizar los colores de los botones al cargar la página
+  updateAllButtonColors();
+
 </script>
 
 </body>
