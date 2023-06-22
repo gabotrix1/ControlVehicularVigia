@@ -11,6 +11,11 @@
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
 
+  <style>
+    .btn-active {
+      background-color: lightblue;
+    }
+  </style>
 </head>
 
 <body>
@@ -59,8 +64,8 @@
     authDomain: "vigia-15de1.firebaseapp.com",
     databaseURL: "https://vigia-15de1-default-rtdb.firebaseio.com",
     projectId: "vigia-15de1",
-    storageBucket: "vigia-15de1.appspot.com",
-    messagingSenderId: "G-JTEKH6T4YR"
+    storageBucket: "vigia-15de1.appspot.co",
+    messagingSenderId: "329163251443"
   };
   firebase.initializeApp(config);
 
@@ -68,12 +73,24 @@
 
   function btn_on(relayNumber) {
     var switchRef = firebase.database().ref().child("Switch").child(relayNumber);
-    switchRef.set("ON");
+    switchRef.set(1);
+
+    // Resaltar botón ON y oscurecer botón OFF
+    var btnOn = document.getElementById("btn-on-" + relayNumber);
+    var btnOff = document.getElementById("btn-off-" + relayNumber);
+    btnOn.classList.add("btn-active");
+    btnOff.classList.remove("btn-active");
   }
 
   function btn_off(relayNumber) {
     var switchRef = firebase.database().ref().child("Switch").child(relayNumber);
-    switchRef.set("OFF");
+    switchRef.set(0);
+
+    // Resaltar botón OFF y oscurecer botón ON
+    var btnOn = document.getElementById("btn-on-" + relayNumber);
+    var btnOff = document.getElementById("btn-off-" + relayNumber);
+    btnOff.classList.add("btn-active");
+    btnOn.classList.remove("btn-active");
   }
 </script>
 
