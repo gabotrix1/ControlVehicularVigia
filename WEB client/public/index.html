@@ -34,17 +34,17 @@
       <p>Obteniendo estados de los sensores...</p>
 
       <center>
-        <button type="submit" class="btn btn-info" onclick="btn_on(1)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(1)">OFF</button>
+        <button type="submit" class="btn btn-info" onclick="btn_on(1)" id="btn-on-1">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(1)" id="btn-off-1">OFF</button>
         <br><br>
-        <button type="submit" class="btn btn-info" onclick="btn_on(2)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(2)">OFF</button>
+        <button type="submit" class="btn btn-info" onclick="btn_on(2)" id="btn-on-2">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(2)" id="btn-off-2">OFF</button>
         <br><br>
-        <button type="submit" class="btn btn-info" onclick="btn_on(3)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(3)">OFF</button>
+        <button type="submit" class="btn btn-info" onclick="btn_on(3)" id="btn-on-3">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(3)" id="btn-off-3">OFF</button>
         <br><br>
-        <button type="submit" class="btn btn-info" onclick="btn_on(4)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(4)">OFF</button>
+        <button type="submit" class="btn btn-info" onclick="btn_on(4)" id="btn-on-4">ON</button>
+        <button type="submit" class="btn btn-danger" onclick="btn_off(4)" id="btn-off-4">OFF</button>
       </center>
 
     </div>
@@ -72,7 +72,7 @@
   var database = firebase.database();
 
   function btn_on(relayNumber) {
-    var switchRef = firebase.database().ref().child("Switch").child(relayNumber);
+    var switchRef = firebase.database().ref("S" + relayNumber);
     switchRef.set(1);
 
     // Resaltar botón ON y oscurecer botón OFF
@@ -83,7 +83,7 @@
   }
 
   function btn_off(relayNumber) {
-    var switchRef = firebase.database().ref().child("Switch").child(relayNumber);
+    var switchRef = firebase.database().ref("S" + relayNumber);
     switchRef.set(0);
 
     // Resaltar botón OFF y oscurecer botón ON
