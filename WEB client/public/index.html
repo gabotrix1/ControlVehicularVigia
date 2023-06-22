@@ -24,23 +24,16 @@
 
     <div class="jumbotron">
       <h1 class="display-3">Proyecto Vigía</h1>
-      <p class="lead">Los siguientes botones controlan los actuadores del vehiculo seleccionado.</p>
+      <p class="lead">Los siguientes botones controlan los actuadores del vehículo seleccionado.</p>
 
       <b>
         <p id="test">Obteniendo estados de los sensores... </p>
       </b>
       <center>
-        <button type="submit" class="btn btn-info" onclick="btn_on(1)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(1)">OFF</button>
-        <br><br>
-        <button type="submit" class="btn btn-info" onclick="btn_on(2)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(2)">OFF</button>
-        <br><br>
-        <button type="submit" class="btn btn-info" onclick="btn_on(3)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(3)">OFF</button>
-        <br><br>
-        <button type="submit" class="btn btn-info" onclick="btn_on(4)">ON</button>
-        <button type="submit" class="btn btn-danger" onclick="btn_off(4)">OFF</button>
+        <button id="btn1" type="submit" class="btn btn-info" onclick="btn_toggle(1)">ON</button>
+        <button id="btn2" type="submit" class="btn btn-info" onclick="btn_toggle(2)">ON</button>
+        <button id="btn3" type="submit" class="btn btn-info" onclick="btn_toggle(3)">ON</button>
+        <button id="btn4" type="submit" class="btn btn-info" onclick="btn_toggle(4)">ON</button>
       </center>
 
     </div>
@@ -56,12 +49,12 @@
 <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
 <script>
   var config = {
-    apiKey: "YOUR_API_KEY",
+    apiKey: "AIzaSyB4OBIxh7X61OfSmhSfGy_zPP-njaKBxVM",
     authDomain: "vigia-15de1.firebaseapp.com",
     databaseURL: "https://vigia-15de1-default-rtdb.firebaseio.com",
     projectId: "vigia-15de1",
     storageBucket: "vigia-15de1.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID"
+    messagingSenderId: "G-JTEKH6T4YR"
   };
   firebase.initializeApp(config);
 
@@ -69,15 +62,11 @@
 
   var test = document.getElementById('test');
 
-  var ref1 = firebase.database().ref().child('Switch').child('1');
-  var ref2 = firebase.database().ref().child('Switch').child('2');
-  var ref3 = firebase.database().ref().child('Switch').child('3');
-  var ref4 = firebase.database().ref().child('Switch').child('4');
-
-  function updateButtonColor(ref, buttonId) {
+  function updateButtonState(relayNumber) {
+    var ref = firebase.database().ref().child('switch').child(relayNumber.toString());
     ref.on("value", function(snapshot) {
       var state = snapshot.val();
-      var button = document.getElementById(buttonId);
+      var button = document.getElementById('btn' + relayNumber.toString());
       button.innerText = state;
       if (state === "ON") {
         button.classList.remove("btn-danger");
@@ -91,25 +80,20 @@
     });
   }
 
-  function updateAllButtonColors() {
-    updateButtonColor(ref1, "btn1");
-    updateButtonColor(ref2, "btn2");
-    updateButtonColor(ref3, "btn3");
-    updateButtonColor(ref4, "btn4");
+  function btn_toggle(relayNumber) {
+    var ref = firebase.database().ref().child('switch').child(relayNumber.toString());
+    ref.once("value", function(snapshot) {
+      var state = snapshot.val();
+      var newState = (state === "ON") ? "OFF" : "ON";
+      ref.set(newState);
+    });
   }
 
-  function btn_on(relayNumber) {
-    var ref = firebase.database().ref().child("Switch").child(relayNumber.toString());
-    ref.set("ON");
-  }
-
-  function btn_off(relayNumber) {
-    var ref = firebase.database().ref().child("Switch").child(relayNumber.toString());
-    ref.set("OFF");
-  }
-
-  // Actualizar los colores de los botones al cargar la página
-  updateAllButtonColors();
+  // Actualizar el estado de los botones al cargar la página
+  updateButtonState(1);
+  updateButtonState(2);
+  updateButtonState(3);
+  updateButtonState(4);
 
 </script>
 
