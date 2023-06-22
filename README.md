@@ -32,4 +32,4 @@ A relay switch (x4) on the Raspberry Pi pin connected to Firebase controlled by 
     
        [**Code**](https://github.com/gabotrix/ControlVehicularVigia/tree/master/WEB%20client)
 
-       ![Web page image](https://github.com/ZiyadAlSamhan/home-automation/blob/master/WEB%20client/WebP.png)
+       ![Web page image]([https://github.com/gabotrix1/ControlVehicularVigia/blob/main/WhatsApp%20Image%202023-06-21%20at%208.41.48%20PM.jpeg)
