@@ -1,37 +1,35 @@
-# Home-automation
+# Vehicle Control Vigía Project
 
-This project is meant to show you how to control a relay switch connected with a Raspberry Pi using your iOS device or your web browser allowing you to control any electrical device by switching it ON and OFF.
+This project is intended to show you how to control connected relay switches with a Raspberry Pi using your iOS/android device or web browser, allowing you to control any hardware in the vehicle.
 
-I have used in this project a relay switch on Raspberry Pi pin connected with Firebase controlled by, an iOS App, and Web client.
+A relay switch (x4) on the Raspberry Pi pin connected to Firebase controlled by an app and a web client has been used in this project.
 
 
-* **Firebase**
+* **Fire Base**
   
-  - Initializing google Firebase.  
-    After creating the Firebase project on your console you should create an object called "Switch" contains a "state" value     between "ON/OFF"
+     - Initializing Google Firebase.
+       After creating the Firebase project in your console, you need to create an object called "Switch" that contains a "state" value between "ON/OFF"
 
 * **Raspberry Pi - relay switch**
-  - Connecting the relay switch with the Raspberry Pi.
-   The circuit should be like this:
-  ![Image of RPi circuit](https://github.com/ZiyadAlSamhan/home-automation/blob/master/RPi/RPi_circuit.png)
+     - Connection of the relay switch with the Raspberry Pi.
+      The circuit should be like this:
+     ![RPi circuit image](https://github.com/gabotrix1/ControlVehicularVigia/blob/master/RPi/RPi_circuit.png)
 
    
-  - Initializing python program on the (Raspberry Pi) connected with Firebase API to get data.
+     - Initialize python program on (Raspberry Pi) connected with Firebase API to get data.
 
-    [**Code**](https://github.com/ZiyadAlSamhan/home-automation/blob/master/RPi/RPi.py)
+       [**Code**](https://github.com/gabotrix1/ControlVehicularVigia/blob/master/RPi/RPi.py)
 
 
 * **iOS APP**
-  - Initializing Xcode project then connecting the App with Firebase.
+     - Initialize the Xcode project and then connect the app with Firebase.
    
-    [**Code**](https://github.com/ZiyadAlSamhan/home-automation/tree/master/iOS)
+       [**Code**](https://github.com/gabotrix1/ControlVehicularVigia/tree/master/iOS)
 
-* **Web Client**
-  - Initializing the the web client project then connecting it with Firebase.
+* **Customer website**
+     - Initialize the web client project and then connect it with Firebase.
     
     
-    [**Code**](https://github.com/ZiyadAlSamhan/home-automation/tree/master/WEB%20client)
+       [**Code**](https://github.com/gabotrix/ControlVehicularVigia/tree/master/WEB%20client)
 
-    ![Image of Web page](https://github.com/ZiyadAlSamhan/home-automation/blob/master/WEB%20client/WebP.png)
-    
-    
+       ![Web page image](https://github.com/ZiyadAlSamhan/home-automation/blob/master/WEB%20client/WebP.png)
